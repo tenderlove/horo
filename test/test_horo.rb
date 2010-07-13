@@ -3,6 +3,11 @@ require 'rdoc/generator/horo'
 require 'tempfile'
 require 'nokogiri'
 
+module Horo
+  class TestDocs
+  end
+end
+
 class TestHoro < Test::Unit::TestCase
   def setup
     $-w = false
@@ -47,6 +52,14 @@ class TestHoro < Test::Unit::TestCase
     doc = html_doc 'doc/index.html'
     assert doc.at_css('frame[src="fr_method_index.html"]'), "missing frame"
     assert_file 'doc/fr_method_index.html'
+  end
+
+  def test_class_show
+    doc = html_doc 'doc/classes/Horo.html'
+    assert_match(/Module:\s+Horo/, doc.at('title').content)
+
+    style_link = doc.css('link[rel = "stylesheet"]').first
+    assert_equal '../rdoc-style.css', style_link['href']
   end
 
   def teardown

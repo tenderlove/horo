@@ -31,9 +31,32 @@ class RDoc::Generator::Horo
     write_file_index
     write_class_index
     write_method_index
+    write_classes
   end
 
   private
+  def write_classes
+    filename = File.join @app_root, 'app', 'views', 'classes', 'show.html.erb'
+    ctx = TemplateContext.new @options, @methods
+    ctx.extend ClassesHelper
+
+    @classes.each do |klass|
+      ctx.klass = klass
+      klass_file = File.join @op_dir, klass.path
+      FileUtils.mkdir_p File.dirname klass_file
+
+      relative_path = File.join(
+        *File.dirname(klass.path).split(File::SEPARATOR).map { |x|
+        '..'
+      })
+      ctx.style_url = File.join relative_path, 'rdoc-style.css'
+
+      File.open(klass_file, 'wb') do |fh|
+        fh.write ctx.eval File.read(filename), filename
+      end
+    end
+  end
+
   def write_method_index
     filename = File.join @app_root, 'app', 'views', 'methods', 'index.html.erb'
     ctx = TemplateContext.new @options, @methods
@@ -83,6 +106,11 @@ class RDoc::Generator::Horo
     attr_accessor :list_title
   end
 
+  module ClassesHelper
+    attr_accessor :klass
+    attr_accessor :style_url
+  end
+
   class TemplateContext < Struct.new :options, :files
     def eval src, filename
       template = ERB.new src, nil, '><'
@@ -99,7 +127,9 @@ class RDoc::Generator::Horo
     end
 
     def main_page
-      files.find { |x| x.name == options.main_page }
+      files.find { |x| x.name == options.main_page } ||
+        files.find { |x| x.name =~ /README/i } ||
+        files.sort_by { |x| x.name }.first
     end
   end
 end
