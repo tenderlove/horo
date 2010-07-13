@@ -4,7 +4,10 @@ require 'tempfile'
 require 'nokogiri'
 
 module Horo
-  class TestDocs
+  class Foo
+  end
+
+  class TestDocs < Foo
   end
 end
 
@@ -63,6 +66,12 @@ class TestHoro < Test::Unit::TestCase
 
     link = doc.css('a').find { |x| x.content == 'lib/horo.rb' }
     assert_equal '../files/lib/horo_rb.html', link['href']
+  end
+
+  def test_class_parent
+    doc = html_doc 'doc/classes/Horo/TestDocs.html'
+    link = doc.css('a').find { |x| x.content == 'Horo::Foo' }
+    assert_equal 'Foo.html', link['href']
   end
 
   def teardown

@@ -113,7 +113,7 @@ class RDoc::Generator::Horo
     attr_accessor :relative_prefix
 
     def link_to text, path
-      "<a href=\"#{File.join(relative_prefix, path)}\">#{text}</a>"
+      "<a href=\"#{path}\">#{text}</a>"
     end
   end
 

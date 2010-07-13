@@ -58,7 +58,7 @@
         <td>In:</td>
         <td>
 <% klass.in_files.each do |infile| %>
-<%= link_to infile.absolute_name, infile.path %>:
+<%= link_to infile.absolute_name, File.join(relative_prefix, infile.path) %>:
 <% end %>
         </td>
       </tr>
@@ -70,7 +70,7 @@
   <% if String === klass.superclass %>
     <%= klass.superclass %>
   <% else %>
-    <%= link_to klass.aref_to klass.superclass.path, klass.superclass.full_name %>
+    <%= link_to klass.superclass.full_name, klass.aref_to(klass.superclass.path) %>
   <% end %>
        </td>
      </tr>
