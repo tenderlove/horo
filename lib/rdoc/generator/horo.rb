@@ -9,16 +9,17 @@ class RDoc::Generator::Horo
     alias :for :new
   end
 
-  attr_accessor :file_dir
+  attr_accessor :file_dir, :class_dir
 
   def initialize options
-    @options  = options
-    @files    = nil
-    @classes  = nil
-    @methods  = nil
-    @file_dir = 'files'
-    @app_root = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
-    @op_dir   = File.expand_path options.op_dir
+    @options   = options
+    @files     = nil
+    @classes   = nil
+    @methods   = nil
+    @file_dir  = 'files'
+    @class_dir = 'classes'
+    @app_root  = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+    @op_dir    = File.expand_path options.op_dir
   end
 
   def generate top_levels
@@ -28,9 +29,22 @@ class RDoc::Generator::Horo
 
     write_index
     write_file_index
+    write_class_index
   end
 
   private
+  def write_class_index
+    filename = File.join @app_root, 'app', 'views', 'classes', 'index.html.erb'
+    ctx = TemplateContext.new @options, @classes
+
+    ctx.extend FileIndexHelper
+    ctx.list_title = 'Classes'
+
+    File.open(File.join(@op_dir, 'fr_class_index.html'), 'wb') do |fh|
+      fh.write ctx.eval File.read(filename), filename
+    end
+  end
+
   def write_file_index
     filename = File.join @app_root, 'app', 'views', 'files', 'index.html.erb'
     ctx = TemplateContext.new @options, @files
@@ -46,6 +60,7 @@ class RDoc::Generator::Horo
   def write_index
     filename = File.join @app_root, 'app', 'views', 'root', 'index.html.erb'
     ctx = TemplateContext.new @options, @files
+
     File.open(File.join(@op_dir, 'index.html'), 'wb') do |fh|
       fh.write ctx.eval File.read(filename), filename
     end

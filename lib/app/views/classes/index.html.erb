@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="<%= charset %>"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%= charset %>" />
+<title>Index</title>
+<style type="text/css">
+<!--
+  body {
+    background-color: #EEE;
+    font-family: "Bitstream Vera Sans", Verdana, Arial, Helvetica, sans-serif;
+    color: #000;
+    margin: 0px;
+  }
+  .banner {
+    background: #005;
+    color: #FFF;
+    padding: 0.2em;
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+  }
+  .entries {
+    margin: 0.25em 1em 0 1em;
+    font-size: x-small;
+  }
+  a {
+    color: #00F;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  a:hover {
+    color: #77F;
+    text-decoration: underline;
+  }
+-->
+</style>
+<base target="docwin" />
+</head>
+<body>
+<div class="banner"><%= list_title %></div>
+<div class="entries">
+<% files.each do |entrie| %>
+<a href="<%= entrie.path %>"><%= entrie.full_name %></a><br />
+<% end %>
+</div>
+</body></html>
