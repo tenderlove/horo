@@ -30,9 +30,22 @@ class RDoc::Generator::Horo
     write_index
     write_file_index
     write_class_index
+    write_method_index
   end
 
   private
+  def write_method_index
+    filename = File.join @app_root, 'app', 'views', 'methods', 'index.html.erb'
+    ctx = TemplateContext.new @options, @methods
+
+    ctx.extend FileIndexHelper
+    ctx.list_title = 'Methods'
+
+    File.open(File.join(@op_dir, 'fr_method_index.html'), 'wb') do |fh|
+      fh.write ctx.eval File.read(filename), filename
+    end
+  end
+
   def write_class_index
     filename = File.join @app_root, 'app', 'views', 'classes', 'index.html.erb'
     ctx = TemplateContext.new @options, @classes
@@ -72,7 +85,7 @@ class RDoc::Generator::Horo
 
   class TemplateContext < Struct.new :options, :files
     def eval src, filename
-      template = ERB.new src
+      template = ERB.new src, nil, '><'
       template.filename = filename
       template.result binding
     end

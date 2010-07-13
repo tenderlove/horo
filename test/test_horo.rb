@@ -43,6 +43,12 @@ class TestHoro < Test::Unit::TestCase
     assert_file 'doc/fr_class_index.html'
   end
 
+  def test_method_index
+    doc = html_doc 'doc/index.html'
+    assert doc.at_css('frame[src="fr_method_index.html"]'), "missing frame"
+    assert_file 'doc/fr_method_index.html'
+  end
+
   def teardown
     FileUtils.rm_rf(File.join(File.dirname(__FILE__), '..', 'doc'))
   end
