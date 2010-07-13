@@ -4,6 +4,7 @@ Manifest.txt
 README.rdoc
 Rakefile
 lib/app/views/classes/index.html.erb
+lib/app/views/classes/show.html.erb
 lib/app/views/files/index.html.erb
 lib/app/views/methods/index.html.erb
 lib/app/views/root/index.html.erb
