@@ -27,6 +27,7 @@ class RDoc::Generator::Horo
     @classes = RDoc::TopLevel.all_classes_and_modules
     @methods = @classes.map { |x| x.method_list }.flatten
 
+    write_static_files
     write_index
     write_file_index
     write_class_index
@@ -101,6 +102,10 @@ class RDoc::Generator::Horo
     File.open(File.join(@op_dir, 'index.html'), 'wb') do |fh|
       fh.write ctx.eval File.read(filename), filename
     end
+  end
+
+  def write_static_files
+    FileUtils.cp_r Dir[File.join(@app_root, 'public', '*')], @op_dir
   end
 
   module FileIndexHelper

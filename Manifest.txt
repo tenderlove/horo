@@ -9,6 +9,7 @@ lib/app/views/files/index.html.erb
 lib/app/views/methods/index.html.erb
 lib/app/views/root/index.html.erb
 lib/horo.rb
+lib/public/rdoc-style.css
 lib/rdoc/discover.rb
 lib/rdoc/generator/horo.rb
 test/test_horo.rb
