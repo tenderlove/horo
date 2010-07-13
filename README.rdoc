@@ -21,7 +21,7 @@ style and format used for Ruby on Rails API documentation.
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* gem install horo
 
 == LICENSE:
 
