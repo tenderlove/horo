@@ -1,14 +1,15 @@
 = horo
 
-* FIX (url)
+* http://github.com/tenderlove/horo
 
 == DESCRIPTION:
 
-FIX (describe your package)
+An RDoc template extracted from Ruby on Rails.  Provides the same documetation
+style and format used for Ruby on Rails API documentation.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* Not done yet
 
 == SYNOPSIS:
 
