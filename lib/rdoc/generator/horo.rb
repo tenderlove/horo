@@ -9,11 +9,14 @@ class RDoc::Generator::Horo
     alias :for :new
   end
 
+  attr_accessor :file_dir
+
   def initialize options
     @options  = options
     @files    = nil
     @classes  = nil
     @methods  = nil
+    @file_dir = 'files'
     @app_root = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
     @op_dir   = File.expand_path options.op_dir
   end
@@ -24,19 +27,41 @@ class RDoc::Generator::Horo
     @methods = @classes.map { |x| x.method_list }.flatten
 
     write_index
+    write_file_index
   end
 
   private
+  def write_file_index
+    filename = File.join @app_root, 'app', 'views', 'files', 'index.html.erb'
+    ctx = TemplateContext.new @options, @files
+
+    ctx.extend FileIndexHelper
+    ctx.list_title = 'Files'
+
+    File.open(File.join(@op_dir, 'fr_file_index.html'), 'wb') do |fh|
+      fh.write ctx.eval File.read(filename), filename
+    end
+  end
+
   def write_index
     filename = File.join @app_root, 'app', 'views', 'root', 'index.html.erb'
-    ctx = TemplateContext.new @options
-    ctx.extend IndexHelper
+    ctx = TemplateContext.new @options, @files
     File.open(File.join(@op_dir, 'index.html'), 'wb') do |fh|
       fh.write ctx.eval File.read(filename), filename
     end
   end
 
-  module IndexHelper
+  module FileIndexHelper
+    attr_accessor :list_title
+  end
+
+  class TemplateContext < Struct.new :options, :files
+    def eval src, filename
+      template = ERB.new src
+      template.filename = filename
+      template.result binding
+    end
+
     def title
       options.title
     end
@@ -46,15 +71,7 @@ class RDoc::Generator::Horo
     end
 
     def main_page
-      options.main_page + ".html"
-    end
-  end
-
-  class TemplateContext < Struct.new :options
-    def eval src, filename
-      template = ERB.new src
-      template.filename = filename
-      template.result binding
+      files.find { |x| x.name == options.main_page }
     end
   end
 end

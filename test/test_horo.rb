@@ -10,7 +10,7 @@ class TestHoro < Test::Unit::TestCase
 
     @title    = 'Ruby on Rails Documentation'
     @encoding = 'utf-8'
-    @main     = 'railties/README'
+    @main     = 'README.rdoc'
 
     rdoc.document [
       '-q',
@@ -23,13 +23,16 @@ class TestHoro < Test::Unit::TestCase
   end
 
   def test_index
-    assert_file 'doc/index.html'
-    doc = File.open('doc/index.html', 'rb') { |f| Nokogiri.HTML f }
+    doc = html_doc 'doc/index.html'
 
     assert_equal @title, doc.css('title').first.content
     assert_equal @encoding, doc.encoding
     main_frame = doc.at_css 'frame[name = "docwin"]'
-    assert_equal "#{@main}.html", main_frame['src']
+    assert_equal "files/#{@main.gsub(/\./, '_')}.html", main_frame['src']
+  end
+
+  def test_file_index
+    assert_file 'doc/fr_file_index.html'
   end
 
   def teardown
@@ -37,6 +40,11 @@ class TestHoro < Test::Unit::TestCase
   end
 
   private
+  def html_doc file
+    assert_file file
+    doc = File.open(file, 'rb') { |f| Nokogiri.HTML f }
+  end
+
   def assert_file name
     assert File.exists?(name), "missing file: #{name}"
   end
