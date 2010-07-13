@@ -60,6 +60,9 @@ class TestHoro < Test::Unit::TestCase
 
     style_link = doc.css('link[rel = "stylesheet"]').first
     assert_equal '../rdoc-style.css', style_link['href']
+
+    link = doc.css('a').find { |x| x.content == 'lib/horo.rb' }
+    assert_equal '../files/lib/horo_rb.html', link['href']
   end
 
   def teardown

@@ -49,6 +49,7 @@ class RDoc::Generator::Horo
         *File.dirname(klass.path).split(File::SEPARATOR).map { |x|
         '..'
       })
+      ctx.relative_prefix = relative_path
       ctx.style_url = File.join relative_path, 'rdoc-style.css'
 
       File.open(klass_file, 'wb') do |fh|
@@ -109,6 +110,11 @@ class RDoc::Generator::Horo
   module ClassesHelper
     attr_accessor :klass
     attr_accessor :style_url
+    attr_accessor :relative_prefix
+
+    def link_to text, path
+      "<a href=\"#{File.join(relative_prefix, path)}\">#{text}</a>"
+    end
   end
 
   class TemplateContext < Struct.new :options, :files

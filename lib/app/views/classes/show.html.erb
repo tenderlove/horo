@@ -50,3 +50,32 @@
   </head>
 
   <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix"><%= klass.module? ? 'Module' : 'Class' %></span><br /><%= klass.full_name %></td>
+  <td align="right">
+    <table cellspacing="0" cellpadding="2">
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<% klass.in_files.each do |infile| %>
+<%= link_to infile.absolute_name, infile.path %>:
+<% end %>
+        </td>
+      </tr>
+<% if klass.type == 'class' %>
+      <tr>
+        <td>Parent:</td>
+        <td>
+
+  <% if String === klass.superclass %>
+    <%= klass.superclass %>
+  <% else %>
+    <%= link_to klass.aref_to klass.superclass.path, klass.superclass.full_name %>
+  <% end %>
+       </td>
+     </tr>
+<% end %>
+         </table>
+        </td>
+        </tr>
+      </table>
