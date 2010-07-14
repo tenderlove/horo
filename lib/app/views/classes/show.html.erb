@@ -110,16 +110,22 @@
   </ul>
 <% end %>
 
-<% if false %>
-<% if values['includes'] %>
+<% unless klass.includes.empty? %>
 <div class="sectiontitle">Included Modules</div>
 <ul>
-<% values['includes'].each do |include| %>
-  <li><%= href include['aref'], include['name'] %>:</li>
+<% klass.each_include do |include| %>
+  <li>
+    <% if String === include.module %>
+      <%= include.module %>
+    <% else %>
+      <%= link_to include.module.full_name, klass.aref_to(include.module.path) %>
+    <% end %>
+  </li>
 <% end %>
 </ul>
 <% end %>
 
+<% if false %>
 <% values['sections'].each do |section| %>
 <% if section['sectitle'] %>
 <div class="sectiontitle"><a name="<%= section['secsequence'] %>"><%= section['sectitle'] %></a></div>
