@@ -42,7 +42,7 @@
 <body>
 <div class="banner"><%= list_title %></div>
 <div class="entries">
-<% files.each do |entrie| %>
+<% files.sort_by { |x| x.name }.each do |entrie| %>
   <a href="<%= entrie.path %>">
     <%= entrie.name %>
     (<%= entrie.parent ? entrie.parent.full_name : 'unknown' %>)

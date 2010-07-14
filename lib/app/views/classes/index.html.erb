@@ -42,7 +42,7 @@
 <body>
 <div class="banner"><%= list_title %></div>
 <div class="entries">
-<% files.each do |entrie| %>
+<% files.sort_by { |x| x.full_name }.each do |entrie| %>
 <a href="<%= entrie.path %>"><%= entrie.full_name %></a><br />
 <% end %>
 </div>
