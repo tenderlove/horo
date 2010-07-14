@@ -125,41 +125,26 @@
 </ul>
 <% end %>
 
-<% if false %>
-<% values['sections'].each do |section| %>
-<% if section['sectitle'] %>
-<div class="sectiontitle"><a name="<%= section['secsequence'] %>"><%= section['sectitle'] %></a></div>
-<% if section['seccomment'] %>
-<div class="description">
-<%= section['seccomment'] %>
-</div>
-<% end %>
-<% end %>
-
-<% if section['classlist'] %>
-  <div class="sectiontitle">Classes and Modules</div>
-  <%= section['classlist'] %>
-<% end %>
-
-<% if section['constants'] %>
+<% unless klass.constants.empty? %>
   <div class="sectiontitle">Constants</div>
   <table border='0' cellpadding='5'>
-<% section['constants'].each do |constant| %>
+<% klass.each_constant do |constant| %>
   <tr valign='top'>
-    <td class="attr-name"><%= constant['name'] %></td>
+    <td class="attr-name"><%= constant.name %></td>
     <td>=</td>
-    <td class="attr-value"><%= constant['value'] %></td>
+    <td class="attr-value"><%= constant.value %></td>
   </tr>
-<% if constant['desc'] %>
+<% if constant.comment %>
   <tr valign='top'>
     <td>&nbsp;</td>
-    <td colspan="2" class="attr-desc"><%= constant['desc'] %></td>
+    <td colspan="2" class="attr-desc"><%= constant.comment.strip %></td>
   </tr>
 <% end %>
 <% end %>
   </table>
 <% end %>
 
+<% if false %>
 <% if section['attributes'] %>
   <div class="sectiontitle">Attributes</div>
   <table border='0' cellpadding='5'>
@@ -218,7 +203,6 @@
 </div>
 <% end %>
 </div>
-<% end %>
 <% end %>
 <% end %>
 <% end %>
