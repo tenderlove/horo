@@ -33,9 +33,34 @@ class RDoc::Generator::Horo
     write_class_index
     write_method_index
     write_classes
+    write_files
   end
 
   private
+  def write_files
+    filename = File.join @app_root, 'app', 'views', 'files', 'show.html.erb'
+    ctx = TemplateContext.new @options, @files
+    ctx.extend ClassesHelper
+    ctx.extend FileHelper
+
+    @files.each do |file|
+      ctx.file = file
+
+      file_path = File.join @op_dir, file.path
+      FileUtils.mkdir_p File.dirname file_path
+      relative_path = File.join(
+        *File.dirname(file.path).split(File::SEPARATOR).map { |x|
+        '..'
+      })
+      ctx.relative_prefix = relative_path
+      ctx.style_url = File.join relative_path, 'rdoc-style.css'
+
+      File.open(file_path, 'wb') do |fh|
+        fh.write ctx.eval File.read(filename), filename
+      end
+    end
+  end
+
   def write_classes
     filename = File.join @app_root, 'app', 'views', 'classes', 'show.html.erb'
     ctx = TemplateContext.new @options, @methods
@@ -106,6 +131,10 @@ class RDoc::Generator::Horo
 
   def write_static_files
     FileUtils.cp_r Dir[File.join(@app_root, 'public', '*')], @op_dir
+  end
+
+  module FileHelper
+    attr_accessor :file
   end
 
   module FileIndexHelper
