@@ -100,7 +100,7 @@
   </ul>
 <% end %>
 
-<% if klass.methods %>
+<% unless klass.methods.empty? %>
   <div class="sectiontitle">Methods</div>
   <ul>
     <% klass.method_list.sort_by { |x| x.name }.each do |method| %>
@@ -134,7 +134,7 @@
     <td>=</td>
     <td class="attr-value"><%= constant.value %></td>
   </tr>
-<% if constant.comment %>
+<% unless constant.comment.empty? %>
   <tr valign='top'>
     <td>&nbsp;</td>
     <td colspan="2" class="attr-desc"><%= constant.comment.strip %></td>
