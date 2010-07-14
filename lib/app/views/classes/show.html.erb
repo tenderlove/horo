@@ -144,24 +144,30 @@
   </table>
 <% end %>
 
-<% if false %>
-<% if section['attributes'] %>
+<% unless klass.attributes.empty? %>
   <div class="sectiontitle">Attributes</div>
   <table border='0' cellpadding='5'>
-<% section['attributes'].each do |attribute| %>
+<% klass.each_attribute do |attribute| %>
   <tr valign='top'>
     <td class='attr-rw'>
-<% if attribute['rw'] %>
-[<%= attribute['rw'] %>]
+<% if attribute.rw %>
+[<%= attribute.rw %>]
 <% end %>
     </td>
-    <td class='attr-name'><%= attribute['name'] %></td>
-    <td class='attr-desc'><%= attribute['a_desc'] %></td>
+    <td class='attr-name'><%= attribute.name %></td>
+    <td class='attr-desc'>
+      <% if attribute.comment %>
+        <%= attribute.comment.strip %>
+      <% else %>
+        (Not documented)
+      <% end %>
+    </td>
   </tr>
 <% end %>
   </table>
 <% end %>
 
+<% if false %>
 <% if section['method_list'] %>
 <% section['method_list'].each do |method_list| %>
 <% if method_list['methods'] %>
