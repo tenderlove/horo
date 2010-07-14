@@ -7,6 +7,7 @@ lib/app/views/classes/index.html.erb
 lib/app/views/classes/show.html.erb
 lib/app/views/files/index.html.erb
 lib/app/views/files/show.html.erb
+lib/app/views/layouts/application.html.erb
 lib/app/views/methods/index.html.erb
 lib/app/views/root/index.html.erb
 lib/horo.rb

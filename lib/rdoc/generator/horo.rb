@@ -37,6 +37,11 @@ class RDoc::Generator::Horo
   end
 
   private
+  def layout name, ctx, &block
+    filename = File.join @app_root, 'app', 'views', 'layouts', name
+    ctx.eval(File.read(filename), filename, &block)
+  end
+
   def write_files
     filename = File.join @app_root, 'app', 'views', 'files', 'show.html.erb'
     ctx = TemplateContext.new @options, @files
@@ -56,7 +61,10 @@ class RDoc::Generator::Horo
       ctx.style_url = File.join relative_path, 'rdoc-style.css'
 
       File.open(file_path, 'wb') do |fh|
-        fh.write ctx.eval File.read(filename), filename
+        src = layout 'application.html.erb', ctx do
+          ctx.eval File.read(filename), filename
+        end
+        fh.write src
       end
     end
   end
