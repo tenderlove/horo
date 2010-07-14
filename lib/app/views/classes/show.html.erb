@@ -167,52 +167,67 @@
   </table>
 <% end %>
 
-<% if false %>
-<% if section['method_list'] %>
-<% section['method_list'].each do |method_list| %>
-<% if method_list['methods'] %>
-<div class="sectiontitle"><%= method_list['type'] %> <%= method_list['category'] %> methods</div>
-<% method_list['methods'].each do |method| %>
-<div class="method">
-  <div class="title">
-<% if method['callseq'] %>
-    <a name="<%= method['aref'] %>"></a><b><%= method['callseq'] %></b>
-<% end %>
-<% unless method['callseq'] %>
-    <a name="<%= method['aref'] %>"></a><b><%= method['name'] %></b><%= method['params'] %>
-<% end %>
-<% if method['codeurl'] %>
-[&nbsp;<a href="<%= method['codeurl'] %>" target="SOURCE_CODE" onclick="javascript:openCode('<%= method['codeurl'] %>'); return false;">source</a>&nbsp;]
-<% end %>
-  </div>
-<% if method['m_desc'] %>
-  <div class="description">
-  <%= method['m_desc'] %>
-  </div>
-<% end %>
-<% if method['aka'] %>
-<div class="aka">
-  This method is also aliased as
-<% method['aka'].each do |aka| %>
-  <a href="<%= aka['aref'] %>"><%= aka['name'] %></a>
-<% end %>
-</div>
-<% end %>
-<% if method['sourcecode'] %>
-<div class="sourcecode">
-  <p class="source-link">[ <a href="javascript:toggleSource('<%= method['aref'] %>_source')" id="l_<%= method['aref'] %>_source">show source</a> ]</p>
-  <div id="<%= method['aref'] %>_source" class="dyn-source">
+<% klass.methods_by_type.each do |type, visibilities| %>
+  <% next if visibilities.empty? %>
+  <% visibilities.each do |visibility, methods| %>
+    <% next if methods.empty? %>
+
+    <div class="sectiontitle">
+      <%= visibility.to_s.capitalize %>
+      <%= type.capitalize %>
+      methods
+    </div>
+
+    <% methods.each do |method| %>
+      <% next if method.is_alias_for %>
+
+      <div class="method">
+        <div class="title">
+          <% if method.call_seq %>
+            <a name="<%= method.aref %>"></a>
+            <b><%= method.call_seq.strip.gsub(/->/, '&rarr;').gsub( /^\w.+\./m, '') %></b>
+          <% else %>
+            <a name="<%= method.aref %>"></a>
+            <b><%= method.name %></b><%= method.params %>
+          <% end %>
+
+        </div>
+
+        <% if method.comment %>
+          <div class="description">
+            <%= method.comment.strip %>
+          </div>
+        <% end %>
+
+        <% unless method.aliases.empty? %>
+          <div class="aka">
+            This method is also aliased as
+            <% method.aliases.each do |aka| %>
+              <%= link_to aka.name, klass.aref_to(aka.path) %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if method.token_stream %>
+          <div class="sourcecode">
+            <p class="source-link">[
+            <a href="javascript:toggleSource('<%= method.html_name %>_source')"
+                 id="l_<%= method.aref %>_source">
+              show source
+            </a> ]</p>
+            <div class="dyn-source"
+                    id="<%= method.html_name %>_source">
 <pre>
-<%= method['sourcecode'] %>
+  <%= method.markup_code %>
 </pre>
-  </div>
-</div>
-<% end %>
-</div>
-<% end %>
-<% end %>
-<% end %>
-<% end %>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+
+    <% end %>
+  <% end %>
 <% end %>
 </div>
   </div>
