@@ -76,8 +76,8 @@ class RDoc::Generator::Horo
 
     @classes.each do |klass|
       ctx.klass = klass
-      klass_file = File.join @op_dir, klass.path
-      FileUtils.mkdir_p File.dirname klass_file
+      file_path = File.join @op_dir, klass.path
+      FileUtils.mkdir_p File.dirname file_path
 
       relative_path = File.join(
         *File.dirname(klass.path).split(File::SEPARATOR).map { |x|
@@ -86,8 +86,11 @@ class RDoc::Generator::Horo
       ctx.relative_prefix = relative_path
       ctx.style_url = File.join relative_path, 'rdoc-style.css'
 
-      File.open(klass_file, 'wb') do |fh|
-        fh.write ctx.eval File.read(filename), filename
+      File.open(file_path, 'wb') do |fh|
+        src = layout 'application.html.erb', ctx do
+          ctx.eval File.read(filename), filename
+        end
+        fh.write src
       end
     end
   end
@@ -143,6 +146,10 @@ class RDoc::Generator::Horo
 
   module FileHelper
     attr_accessor :file
+
+    def title
+      "File: #{file.base_name}"
+    end
   end
 
   module FileIndexHelper
@@ -153,6 +160,10 @@ class RDoc::Generator::Horo
     attr_accessor :klass
     attr_accessor :style_url
     attr_accessor :relative_prefix
+
+    def title
+      (klass.module? ? 'Module: ' : 'Class: ') + klass.full_name
+    end
 
     def link_to text, path
       "<a href=\"#{path}\">#{text}</a>"
