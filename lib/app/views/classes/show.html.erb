@@ -80,7 +80,145 @@
         </tr>
       </table>
   <div id="bodyContent">
-    #{METHOD_LIST}
+  <div id="content">
+<% if klass.diagram %>
+  <table cellpadding='0' cellspacing='0' border='0' width="100%"><tr><td align="center">
+    <%= klass.diagram %>
+  </td></tr></table>
+<% end %>
+
+<% if klass.description %>
+  <div class="description"><%= klass.description %></div>
+<% end %>
+
+<% unless klass.requires.empty? %>
+  <div class="sectiontitle">Required Files</div>
+  <ul>
+<% klass.requires.each do |require| %>
+  <li><%= link_to require.name, require.aref %>:</li>
+<% end %>
+  </ul>
+<% end %>
+
+<% if klass.methods %>
+  <div class="sectiontitle">Methods</div>
+  <ul>
+    <% klass.method_list.sort_by { |x| x.name }.each do |method| %>
+      <% next if method.is_alias_for %>
+      <li><%= link_to method.name, "##{method.aref}" %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if false %>
+<% if values['includes'] %>
+<div class="sectiontitle">Included Modules</div>
+<ul>
+<% values['includes'].each do |include| %>
+  <li><%= href include['aref'], include['name'] %>:</li>
+<% end %>
+</ul>
+<% end %>
+
+<% values['sections'].each do |section| %>
+<% if section['sectitle'] %>
+<div class="sectiontitle"><a name="<%= section['secsequence'] %>"><%= section['sectitle'] %></a></div>
+<% if section['seccomment'] %>
+<div class="description">
+<%= section['seccomment'] %>
+</div>
+<% end %>
+<% end %>
+
+<% if section['classlist'] %>
+  <div class="sectiontitle">Classes and Modules</div>
+  <%= section['classlist'] %>
+<% end %>
+
+<% if section['constants'] %>
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+<% section['constants'].each do |constant| %>
+  <tr valign='top'>
+    <td class="attr-name"><%= constant['name'] %></td>
+    <td>=</td>
+    <td class="attr-value"><%= constant['value'] %></td>
+  </tr>
+<% if constant['desc'] %>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc"><%= constant['desc'] %></td>
+  </tr>
+<% end %>
+<% end %>
+  </table>
+<% end %>
+
+<% if section['attributes'] %>
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+<% section['attributes'].each do |attribute| %>
+  <tr valign='top'>
+    <td class='attr-rw'>
+<% if attribute['rw'] %>
+[<%= attribute['rw'] %>]
+<% end %>
+    </td>
+    <td class='attr-name'><%= attribute['name'] %></td>
+    <td class='attr-desc'><%= attribute['a_desc'] %></td>
+  </tr>
+<% end %>
+  </table>
+<% end %>
+
+<% if section['method_list'] %>
+<% section['method_list'].each do |method_list| %>
+<% if method_list['methods'] %>
+<div class="sectiontitle"><%= method_list['type'] %> <%= method_list['category'] %> methods</div>
+<% method_list['methods'].each do |method| %>
+<div class="method">
+  <div class="title">
+<% if method['callseq'] %>
+    <a name="<%= method['aref'] %>"></a><b><%= method['callseq'] %></b>
+<% end %>
+<% unless method['callseq'] %>
+    <a name="<%= method['aref'] %>"></a><b><%= method['name'] %></b><%= method['params'] %>
+<% end %>
+<% if method['codeurl'] %>
+[&nbsp;<a href="<%= method['codeurl'] %>" target="SOURCE_CODE" onclick="javascript:openCode('<%= method['codeurl'] %>'); return false;">source</a>&nbsp;]
+<% end %>
+  </div>
+<% if method['m_desc'] %>
+  <div class="description">
+  <%= method['m_desc'] %>
+  </div>
+<% end %>
+<% if method['aka'] %>
+<div class="aka">
+  This method is also aliased as
+<% method['aka'].each do |aka| %>
+  <a href="<%= aka['aref'] %>"><%= aka['name'] %></a>
+<% end %>
+</div>
+<% end %>
+<% if method['sourcecode'] %>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('<%= method['aref'] %>_source')" id="l_<%= method['aref'] %>_source">show source</a> ]</p>
+  <div id="<%= method['aref'] %>_source" class="dyn-source">
+<pre>
+<%= method['sourcecode'] %>
+</pre>
+  </div>
+</div>
+<% end %>
+</div>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
+</div>
   </div>
   </body>
 </html>
