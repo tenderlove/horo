@@ -9,15 +9,34 @@ style and format used for Ruby on Rails API documentation.
 
 == FEATURES/PROBLEMS:
 
-* Not done yet
+* May have bugs?
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+You can output Horo formatted documentation from the command line like this:
+
+  $ sudo gem install horo
+  $ cd ~/git/nokogiri
+  $ rdoc -f horo --main README.rdoc *.rdoc lib ext
+
+Here is an example rake task that uses the Horo format:
+
+  RDoc::Task.new do |rdoc|
+    rdoc.title    = "My Awesome docs"
+    rdoc.rdoc_dir = 'doc'
+  
+    rdoc.options << '-f' << 'horo'
+    rdoc.options << '--main' << 'README'
+  end
+
+The important part is that you have the "horo" gem installed and that you pass
+the "-f horo" option.  That tells RDoc to use the Horo format when generating
+your documentation.
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* Ruby
+* RDoc 2.5.x
 
 == INSTALL:
 
