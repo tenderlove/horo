@@ -1,3 +1,9 @@
+=== 1.0.1 / 2010-08-07
+
+* 1 Bugfix
+
+  * Fixed method descriptions
+
 === 1.0.0 / 2010-07-13
 
 * 1 major enhancement
