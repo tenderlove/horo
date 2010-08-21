@@ -1,0 +1,26 @@
+body {
+  background-color: #FFF;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #333;
+  margin: 0px;
+}
+
+.banner {
+  background: #C52F24;
+  color: #FFF;
+  padding: 0.2em;
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+}
+
+.entries {
+  margin: 0.25em 1em 0 1em;
+  font-size: x-small;
+}
+
+a:link, a:active, a:visited, a:hover {
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap;
+}
