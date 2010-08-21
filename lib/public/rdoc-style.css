@@ -1,19 +1,14 @@
-a {
-  color: #00F;
+a:link, a:active, a:visited, a:hover {
+  color: #980905;
   text-decoration: none;
 }
 
-a:hover {
-  color: #77F;
-  text-decoration: underline;
-}
-
 body, td, p {
-  font-family: "Bitstream Vera Sans", Verdana, Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 87.5%;
+  line-height: 1.5em;
   background: #FFF;
-  color: #000;
-  margin: 0px;
-  font-size: small;
+  color: #333;
 }
 
 p {
@@ -32,12 +27,9 @@ p {
 }
 
 .sectiontitle {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding: 0.5em;
-  padding-left: 2em;
-  background: #005;
-  color: #FFF;
+  padding: 0.5em 1em 0.5em 1em;
+  margin-left: -1.5em;
+  font-size: large;
   font-weight: bold;
 }
 
@@ -66,14 +58,14 @@ p {
 .file-title {
   font-size: large;
   font-weight: bold;
-  background: #005;
+  background: #C52F24;
   color: #FFF;
 }
 
 .banner {
-  background: #005;
+  background: #C52F24;
   color: #FFF;
-  border: 1px solid black;
+  border: 1px solid #980905;
   padding: 1em;
 }
 
@@ -83,16 +75,16 @@ p {
 }
 
 h1 a, h2 a, .sectiontitle a, .banner a {
-  color: #FF0;
+  color: #fff;
 }
 
 h1 a:hover, h2 a:hover, .sectiontitle a:hover, .banner a:hover {
-  color: #FF7;
+  color: #fff;
 }
 
 .dyn-source {
   display: none;
-  background: #fffde8;
+  background: #EEE;
   color: #000;
   border: #ffe0bb dotted 1px;
   margin: 0.5em 2em 0.5em 2em;
@@ -117,8 +109,7 @@ h1 a:hover, h2 a:hover, .sectiontitle a:hover, .banner a:hover {
 
 .description pre {
   padding: 0.5em;
-  border: #ffe0bb dotted 1px;
-  background: #fffde8;
+  background: #EEE;
 }
 
 .method .title {
@@ -150,32 +141,51 @@ h1 a:hover, h2 a:hover, .sectiontitle a:hover, .banner a:hover {
 }
 
 h1 {
-  padding: 1em;
-  margin-left: -1.5em;
-  font-size: x-large;
+  font-size: 2.5em;
+  line-height: 1em;
+  margin: 0.6em 0 .2em;
   font-weight: bold;
-  color: #FFF;
-  background: #007;
 }
 
 h2 {
-  padding: 0.5em 1em 0.5em 1em;
-  margin-left: -1.5em;
-  font-size: large;
+  font-size: 2.1428em;
+  line-height: 1em;
+  margin: 0.7em 0 .2333em;
   font-weight: bold;
-  color: #FFF;
-  background: #009;
 }
 
-h3, h4, h5, h6 {
-  color: #220088;
-  border-bottom: #5522bb solid 1px;
+h3 {
+  font-size: 1.7142em;
+  line-height: 1.286em;
+  margin: 0.875em 0 0.2916em;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 1.2857em;
+  line-height: 1.2em;
+  margin: 1.6667em 0 .3887em;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 1em 0 .5em;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 1em 0 .5em;
+  font-weight: normal;
 }
 
 .sourcecode > pre {
   padding: 0.5em;
   border: 1px dotted black;
-  background: #FFE;
+  background: #EEE;
 }
 
 dt {
