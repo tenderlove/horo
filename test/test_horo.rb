@@ -39,12 +39,6 @@ class TestHoro < Test::Unit::TestCase
     assert_equal "files/#{@main.gsub(/\./, '_')}.html", main_frame['src']
   end
 
-  def test_file_index
-    doc = html_doc 'doc/index.html'
-    assert doc.at_css('frame[src="fr_file_index.html"]'), "index links to files"
-    assert_file 'doc/fr_file_index.html'
-  end
-
   def test_class_index
     doc = html_doc 'doc/index.html'
     assert doc.at_css('frame[src="fr_class_index.html"]'), "missing frame"
