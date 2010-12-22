@@ -21,7 +21,7 @@
 
   <% if String === klass.superclass %>
     <%= klass.superclass %>
-  <% else %>
+  <% elsif klass.superclass %>
     <%= link_to klass.superclass.full_name, klass.aref_to(klass.superclass.path) %>
   <% end %>
        </td>
