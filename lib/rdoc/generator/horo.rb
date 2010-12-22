@@ -6,6 +6,7 @@ class RDoc::Generator::Horo
   RDoc::RDoc.add_generator self
 
   class << self
+    # RDoc 3 calls new, previous versions called for.
     alias :for :new
   end
 
