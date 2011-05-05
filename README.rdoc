@@ -15,7 +15,7 @@ style and format used for Ruby on Rails API documentation.
 
 You can output Horo formatted documentation from the command line like this:
 
-  $ sudo gem install horo --pre
+  $ sudo gem install horo
   $ cd ~/git/nokogiri
   $ rdoc -f horo --main README.rdoc *.rdoc lib ext
 
